@@ -24,7 +24,7 @@ Raw data is not included in this repository.
 - Data filtering (Focusing on UFJF codes: 13103 and 5001167)
 - Data preprocessing and course-level feature aggregation
 - Supervised learning (classification and regression)
-- Baseline models: Random Forest and XGBoost
+- Baseline models: Random Forest
 - Evaluation metrics: Accuracy, R-squared and F1-score
 
 ## Project Status
