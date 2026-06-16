@@ -20,19 +20,28 @@ ENAMED 2025 microdata provided by INEP.
 
 Raw data is not included in this repository.
 
-## Methodology
-- Data filtering (Focusing on UFJF codes: 13103 and 5001167)
-- Data preprocessing and course-level feature aggregation
-- Supervised learning (classification and regression)
-- Baseline models: Random Forest
-- Evaluation metrics: Accuracy, R-squared and F1-score
+## Project Pipeline & Architecture
+
+The workflow is divided into 6 sequential notebooks structured as follows:
+
+* **01_preprocessing.ipynb:** Raw ENAMED microdata ingestion, LGPD compliance aggregation by `CO_CURSO`, and performance metric calculations.
+* **02_feature_selection_and_regression.ipynb:** Preliminary analysis exploring the impact of aggregated variables on general scores using regression models.
+* **03_exam_perception_classification.ipynb:** Initial investigation into student exam perception columns as predictors for performance categorization.
+* **04_feature_importance_and_multivariable_classification.ipynb:** Global feature importance mapping utilizing baseline Random Forest models to filter socioeconomic and institutional indicators.
+* **05_feature_selection_and_model_optimization.ipynb:** Automatic noise filtering (dropping from 60 to 20 key features) and hyperparameter tuning using `GridSearchCV`. Achieved a **78% cross-validated accuracy** with optimized settings (`n_estimators: 50`, `max_depth: 6`, `criterion: 'entropy'`).
+* **06_ufjf_insights_and_local_contributions.ipynb:** Deconstruction of the black-box model using Local Attribute Contribution Analysis to extract strategic, campus-specific pedagogical diagnostics for UFJF (Juiz de Fora and Governador Valadares).
 
 ## Project Status
-Initial setup and data filtering.
+**Completed.** The machine learning pipeline is fully established, and institutional coefficients have been successfully translated into actionable management insights.
+
+## Key Findings & Regional Impact
+* **UFJF Governador Valadares:** Classified as *High Performance* with a solid **94.6% prediction confidence**. Driven heavily by strong content retention (`I7_D`) and direct course appreciation (`I9_A`).
+* **UFJF Juiz de Fora:** Correctly identified as *High Performance* but stabilizes as a boundary case (**57.6% confidence**) due to mixed internal student sentiment—balancing high praise for exam clarity (`I4_B`) with localized friction caused by perceived content difficulty (`I6_A` and `I1_D`).
 
 ## Related Work
-This project builds upon previous experiences with ENADE microdata analysis, transitioning the focus to the newly established medical examination (ENAMED) and its specific evaluation matrix (Internal Medicine, Surgery, Pediatrics, etc.).
+This project builds upon previous experiences with ENADE microdata analysis, transitioning the focus to the newly established medical examination (ENAMED) and its specific evaluation matrix.
 
 References:
 https://github.com/Ivanylson/Ontology_ENADE
+
 https://github.com/lucasdahbar/enade-performance-prediction
