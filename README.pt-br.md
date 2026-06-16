@@ -20,18 +20,26 @@ Microdados do ENAMED 2025 fornecidos pelo INEP.
 
 Os dados brutos não estão incluídos neste repositório.
 
-## Metodologia
-- Filtragem de dados (Focando nos códigos da UFJF: `13103` e `5001167`)
-- Pré-processamento de dados e agregação de características por curso
-- Aprendizado supervisionado (classificação e regressão)
-- Modelos de baseline: Random Forest
-- Métricas de avaliação: Acurácia, R-squared e F1-score
+## Pipeline e Arquitetura do Projeto
+
+O fluxo de trabalho está dividido em 6 notebooks sequenciais estruturados da seguinte forma:
+
+* **01_preprocessing.ipynb:** Ingestão dos microdados brutos do ENAMED, agregação por `CO_CURSO` para conformidade com a LGPD e cálculo das métricas de desempenho.
+* **02_feature_selection_and_regression.ipynb:** Análise preliminar explorando o impacto das variáveis agregadas nas notas gerais utilizando modelos de regressão.
+* **03_exam_perception_classification.ipynb:** Investigação inicial utilizando as colunas de percepção da prova dos alunos como preditores para a categorização de desempenho.
+* **04_feature_importance_and_multivariable_classification.ipynb:** Mapeamento global de importância de atributos (*feature importance*) utilizando modelos Random Forest base para filtrar indicadores socioeconômicos e institucionais.
+* **05_feature_selection_and_model_optimization.ipynb:** Filtragem automática de ruído (redução de 60 para 20 variáveis-chave) e ajuste fino de hiperparâmetros com `GridSearchCV`. Alcançou uma **acurácia de 78% na validação cruzada** com as configurações otimizadas (`n_estimators: 50`, `max_depth: 6`, `criterion: 'entropy'`).
+* **06_ufjf_insights_and_local_contributions.ipynb:** Desconstrução da "caixa-preta" do modelo utilizando a Análise de Contribuição Local de Atributos para extrair diagnósticos pedagógicos estratégicos e específicos para cada campus da UFJF (Juiz de Fora e Governador Valadares).
 
 ## Status do Projeto
-Configuração inicial e filtragem de dados.
+**Concluído.** O pipeline de machine learning está totalmente estabelecido e os coeficientes institucionais foram traduzidos com sucesso em insights práticos de gestão.
+
+## Principais Descobertas e Impacto Regional
+* **UFJF Governador Valadares:** Classificado como *Alta Performance* com uma sólida **confiança de previsão de 94,6%**. Impulsionado fortemente por uma alta retenção de conteúdo (`I7_D`) e reconhecimento direto da contribuição do curso (`I9_A`).
+* **UFJF Juiz de Fora:** Identificado corretamente como *Alta Performance*, mas estabiliza como um caso de fronteira (**57,6% de confiança**) devido a um sentimento interno misto dos alunos — equilibrando elogios à clareza da prova (`I4_B`) com atritos localizados gerados pela percepção de dificuldade de conteúdo (`I6_A` e `I1_D`).
 
 ## Trabalhos Relacionados
-Este projeto baseia-se em experiências anteriores com a análise de microdados do ENADE, migrando o foco para o recém-estabelecido exame médico (ENAMED) e sua matriz de avaliação específica (Clínica Médica, Cirurgia, Pediatria, etc.).
+Este projeto baseia-se em experiências anteriores com a análise de microdados do ENADE, migrando o foco para o recém-estabelecido exame médico (ENAMED) e sua matriz de avaliação específica.
 
 Referências:
 [https://github.com/Ivanylson/Ontology_ENADE](https://github.com/Ivanylson/Ontology_ENADE)
