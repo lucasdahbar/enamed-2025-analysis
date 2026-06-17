@@ -1,8 +1,8 @@
-# Previsão de Desempenho Institucional - ENAMED 2025
+# Predição de Desempenho Institucional no ENAMED 2025
 
-Este projeto investiga a capacidade preditiva de variáveis socioeconômicas e institucionais dos microdados do **ENAMED 2025** para estimar o desempenho acadêmico a nível de curso, utilizando modelos de machine learning.
+Este projeto investiga a capacidade preditiva de variáveis socioeconômicas e institucionais dos microdados do **ENAMED 2025** para estimar o desempenho acadêmico em nível de curso utilizando modelos de machine learning.
 
-O ENAMED é uma modalidade especializada do exame nacional (ENADE), projetada especificamente para as faculdades de medicina no Brasil. Esta pesquisa explora o conjunto de dados para identificar padrões que influenciam a qualidade da educação médica.
+O ENAMED é uma modalidade especializada do exame nacional (ENADE) projetada especificamente para as faculdades de medicina no Brasil. Esta pesquisa explora o conjunto de dados para identificar padrões que influenciam a qualidade do ensino médico.
 
 📄 Leia este README em Inglês: README.md
 
@@ -11,12 +11,12 @@ Avaliar o potencial preditivo de variáveis agregadas institucionais e socioecon
 
 ## Perguntas de Pesquisa
 - Quais fatores socioeconômicos impactam mais significativamente o desempenho médio dos cursos de medicina?
-- Modelos de machine learning conseguem prever com precisão categorias de desempenho dos cursos com base em perfis institucionais?
+- Modelos de machine learning podem prever com precisão as categorias de desempenho dos cursos com base em perfis institucionais?
 - Como o desempenho dos campi da UFJF se compara às tendências nacionais e regionais?
 
-## Dataset
-Microdados do ENAMED 2025 fornecidos pelo INEP.  
-**Nota sobre a Metodologia:** Devido à conformidade com a LGPD (Lei Geral de Proteção de Dados), o conjunto de dados não permite o cruzamento individual por aluno. Portanto, este estudo utiliza uma **abordagem em nível agregado**, agrupando os dados pelos Códigos de Curso (`CO_CURSO`).
+## Conjunto de Dados (Dataset)
+Microdados do ENAMED 2025 fornecidos pelo INEP.
+**Nota sobre a Metodologia:** Devido à conformidade com a LGPD (Lei Geral de Proteção de Dados), o conjunto de dados não permite o cruzamento de dados em nível de estudante individual. Portanto, este estudo emprega uma **abordagem em nível agregado**, agrupando os dados pelos Códigos de Curso (CO_CURSO).
 
 Os dados brutos não estão incluídos neste repositório.
 
@@ -38,9 +38,21 @@ O fluxo de trabalho está dividido em 6 notebooks sequenciais estruturados da se
 * **UFJF Governador Valadares:** Classificado como *Alta Performance* com uma sólida **confiança de previsão de 94,6%**. Impulsionado fortemente por uma alta retenção de conteúdo (`I7_D`) e reconhecimento direto da contribuição do curso (`I9_A`).
 * **UFJF Juiz de Fora:** Identificado corretamente como *Alta Performance*, mas estabiliza como um caso de fronteira (**57,6% de confiança**) devido a um sentimento interno misto dos alunos — equilibrando elogios à clareza da prova (`I4_B`) com atritos localizados gerados pela percepção de dificuldade de conteúdo (`I6_A` e `I1_D`).
 
+## Painel de Auditoria Interativo (Dashboard)
+
+Para traduzir os coeficientes matemáticos do pipeline em insights práticos para gestores educacionais, um painel web interativo foi desenvolvido utilizando o **Streamlit**. A interface funciona como uma plataforma de auditoria institucional moldada para a tomada de decisões pedagógicas.
+
+### Principais Funcionalidades do Dashboard:
+* **Estrutura de Busca Dinâmica:** Consulta instantânea de qualquer programa médico no Brasil filtrando pelo seu Código de Curso único (`CO_CURSO`).
+* **Mapeamento de Contribuição de Atributos ao Vivo:** Gera gráficos de barras horizontais em tempo real mostrando os escores exatos de força de impacto local derivados do modelo Random Forest otimizado, reordenando os atributos dinamicamente a cada consulta.
+* **Diagnósticos Pedagógicos Automatizados:** Analisa programaticamente as respostas dos questionários dos alunos para destacar pontos fortes localizados e gargalos curriculares críticos.
+* **Seletor de Idioma Nativo:** Tradução completa da interface do usuário, gráficos e pacotes de dados entre **Inglês** e **Português** através de um controlador na barra lateral.
+* **Conformidade LGPD-by-Design:** Construído inteiramente sobre identificadores agregados e mascarados para preservar a privacidade dos dados e evitar a reidentificação individual.
+
 ## Trabalhos Relacionados
 Este projeto baseia-se em experiências anteriores com a análise de microdados do ENADE, migrando o foco para o recém-estabelecido exame médico (ENAMED) e sua matriz de avaliação específica.
 
 Referências:
 [https://github.com/Ivanylson/Ontology_ENADE](https://github.com/Ivanylson/Ontology_ENADE)
+
 [https://github.com/lucasdahbar/enade-performance-prediction](https://github.com/lucasdahbar/enade-performance-prediction)

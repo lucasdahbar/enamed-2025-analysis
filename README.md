@@ -16,7 +16,7 @@ Evaluate the predictive potential of institutional and socioeconomic aggregated 
 
 ## Dataset
 ENAMED 2025 microdata provided by INEP.
-**Note on Methodology:** Due to LGPD (Data Protection Law) compliance, the dataset does not allow individual student-level merging. Therefore, this study employs an **aggregate-level approach** by grouping data by Course Codes CO_CURSO)
+**Note on Methodology:** Due to LGPD (Data Protection Law) compliance, the dataset does not allow individual student-level merging. Therefore, this study employs an **aggregate-level approach** by grouping data by Course Codes (CO_CURSO).
 
 Raw data is not included in this repository.
 
@@ -37,6 +37,17 @@ The workflow is divided into 6 sequential notebooks structured as follows:
 ## Key Findings & Regional Impact
 * **UFJF Governador Valadares:** Classified as *High Performance* with a solid **94.6% prediction confidence**. Driven heavily by strong content retention (`I7_D`) and direct course appreciation (`I9_A`).
 * **UFJF Juiz de Fora:** Correctly identified as *High Performance* but stabilizes as a boundary case (**57.6% confidence**) due to mixed internal student sentiment—balancing high praise for exam clarity (`I4_B`) with localized friction caused by perceived content difficulty (`I6_A` and `I1_D`).
+
+## Interactive Audit Dashboard
+
+To translate the pipeline's mathematical coefficients into actionable insights for educational managers, an interactive Web Dashboard was developed using **Streamlit**. The interface functions as an institutional auditing platform tailored for pedagogical decision-making.
+
+### Key Dashboard Features:
+* **Dynamic Search Framework:** Instantly look up any medical program in Brazil by filtering its unique Course Code (`CO_CURSO`).
+* **Live Feature Contribution Mapping:** Generates horizontal bar charts on the fly showing the exact local impact force scores derived from the optimized Random Forest model, re-sorting features dynamically per query.
+* **Automated Pedagogical Diagnostics:** Programmatically parses student survey responses to highlight localized strengths and critical curricular friction points.
+* **Native Bilingual Toggle:** Full UI, charts, and data pack translations between **English** and **Português** via a sidebar controller.
+* **LGPD-by-Design Compliance:** Built entirely on masked, aggregate identifiers to preserve data privacy and prevent individual re-identification.
 
 ## Related Work
 This project builds upon previous experiences with ENADE microdata analysis, transitioning the focus to the newly established medical examination (ENAMED) and its specific evaluation matrix.
