@@ -56,3 +56,7 @@ Referências:
 [https://github.com/Ivanylson/Ontology_ENADE](https://github.com/Ivanylson/Ontology_ENADE)
 
 [https://github.com/lucasdahbar/enade-performance-prediction](https://github.com/lucasdahbar/enade-performance-prediction)
+
+Link para o site do gov com os microdados do ENAMED 2025:
+
+[https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/enamed](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/enamed)
