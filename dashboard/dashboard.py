@@ -4,6 +4,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+try:
+    from llm_explainer import AuditContext, explain
+    _LLM_AVAILABLE = True
+except Exception:
+    _LLM_AVAILABLE = False
+
 st.set_page_config(
     page_title="ENAMED 2025 - Audit Hub",
     page_icon="🩺",
@@ -70,6 +76,7 @@ LANG_PACK = {
         "friction_hard": "**Pico de Ansiedade / Dificuldade na Prova:** Mais de 20% avaliaram a estrutura como excepcionalmente difícil (`I1_D`), atuando como um contrapeso matemático.",
     }
 }
+
 
 # Mapping translations explicitly to match raw variables dynamically
 FEATURE_TRANSLATION = {
@@ -155,6 +162,7 @@ kpi_col1.metric(label=texts["kpi_code"], value=str(selected_code))
 kpi_col2.metric(label=texts["kpi_score"], value=f"{course_score:.2f}", delta=f"{course_score - national_median:.2f} {texts['kpi_delta']}")
 kpi_col3.metric(label=texts["kpi_tier"], value=performance_status)
 
+
 st.markdown("---")
 
 left_col, right_col = st.columns([3, 2])
@@ -205,3 +213,39 @@ with right_col:
         
     if df_course['pct_CO_RS_I1_D'].values[0] > 20:
         st.warning(texts["friction_hard"])
+
+        st.markdown("---")
+_label = "Explanation (Gemini)" if selected_lang == "English" else "Explicação (Gemini)"
+with st.expander(_label, expanded=False):
+    if not _LLM_AVAILABLE:
+        st.info("llm_explainer.py was not found next to dashboard.py.")
+    else:
+        _friction = {"pct_CO_RS_I6_A", "pct_CO_RS_I1_D"}
+        _strength = {"pct_CO_RS_I7_D", "pct_CO_RS_I9_A", "pct_CO_RS_I4_B"}
+        contribs = []
+        for _, row in df_plot_local.iterrows():
+            raw = row["Feature_Raw"]
+            sentiment = "friction" if raw in _friction else ("strength" if raw in _strength else "neutral")
+            contribs.append({
+                "feature": raw.replace("pct_CO_RS_", ""),
+                "label": row["Feature/Driver"],
+                "value_pct": float(df_course[raw].values[0]),
+                "impact": round(float(row["Contribution_Strength"]), 2),
+                "sentiment": sentiment,
+            })
+        ctx = AuditContext(
+            course_code=int(selected_code),
+            avg_score=float(course_score),
+            national_median=float(national_median),
+            predicted_tier=performance_status,
+            contributions=contribs,
+            language=selected_lang,
+            confidence_pct=None,   # pass model.predict_proba(...) here when available
+        )
+        with st.spinner("..."):
+            text = explain(ctx)
+        if text:
+            st.markdown(text)
+        else:
+            st.info("Set GEMINI_API_KEY in .streamlit/secrets.toml to enable explanations. "
+                    "The rule-based diagnostic above remains valid.")

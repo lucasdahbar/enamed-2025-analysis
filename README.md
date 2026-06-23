@@ -57,6 +57,6 @@ References:
 
 [https://github.com/lucasdahbar/enade-performance-prediction](https://github.com/lucasdahbar/enade-performance-prediction)
 
-Link to the gov website with the ENAMED 2025 microdata::
+Link to the gov website with the ENAMED 2025 microdata:
 
 [https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/enamed](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/enamed)
