@@ -1,12 +1,19 @@
 # Integrating the explanation layer into the dashboard
 
-Place `llm_explainer.py` next to `dashboard.py`.
+Place `llm_explainer.py` next to `dashboard.py`. The explanation panel works
+**with or without** a Gemini API key:
+
+- **No key (default for reviewers):** a deterministic, offline grounded
+  explanation is shown (`local_explanation`). No network, no secrets, fully
+  reproducible.
+- **With a key:** the text is generated live by Gemini (`explain`), as an
+  optional enhancement. The reviewer never needs the authors' key.
 
 ## 1. Import (near the top of dashboard.py)
 
 ```python
 try:
-    from llm_explainer import AuditContext, explain
+    from llm_explainer import AuditContext, explain, local_explanation
     _LLM_AVAILABLE = True
 except Exception:
     _LLM_AVAILABLE = False
@@ -43,26 +50,32 @@ with st.expander(_label, expanded=False):
             language=selected_lang,
             confidence_pct=None,   # pass model.predict_proba(...) here when available
         )
-        with st.spinner("..."):
-            text = explain(ctx)
-        if text:
-            st.markdown(text)
+        live = explain(ctx)                      # None if no key / call fails
+        text = live or local_explanation(ctx)    # offline fallback, no key needed
+        st.markdown(text)
+        if live:
+            st.caption("Generated live with Gemini.")
         else:
-            st.info("Set GEMINI_API_KEY in .streamlit/secrets.toml to enable explanations. "
-                    "The rule-based diagnostic above remains valid.")
+            st.caption("Generated offline (deterministic, no API key needed). "
+                       "Set GEMINI_API_KEY to enable the Gemini version.")
 ```
 
-Adjust the variable names (`df_plot_local`, `df_course`, `selected_code`, `course_score`,
-`national_median`, `performance_status`, `selected_lang`) to match the dashboard.
+Adjust the variable names (`df_plot_local`, `df_course`, `selected_code`,
+`course_score`, `national_median`, `performance_status`, `selected_lang`) to
+match the dashboard.
 
-## 3. Configuration
+## 3. Optional configuration (only to enable the live Gemini version)
 
 ```
-pip install google-genai
+pip install "google-genai>=2.0"
 ```
-Provide a key via `.streamlit/secrets.toml`:
+Provide a key via `.streamlit/secrets.toml` (`GEMINI_API_KEY = "..."`) or the
+`GEMINI_API_KEY` environment variable. **Never commit a key to the repository.**
+Without a key, the dashboard runs fully on the offline explanation.
+
+## Quick diagnostic
+
 ```
-GEMINI_API_KEY = "your-key"
+GEMINI_API_KEY=... python llm_explainer.py    # prints the live result, or the exact failure reason
+python llm_explainer.py                        # no key: prints the offline explanation
 ```
-or the environment variable `GEMINI_API_KEY`. Without a key, the dashboard keeps its
-rule-based diagnostic. Only masked, course-level aggregates are sent to the service.
